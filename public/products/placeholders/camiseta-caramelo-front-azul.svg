@@ -1,0 +1,8 @@
+<svg width="900" height="1125" viewBox="0 0 900 1125" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="900" height="1125" fill="#e7dfd2"/>
+  <ellipse cx="450" cy="930" rx="245" ry="42" fill="#171412" opacity="0.10"/>
+  <path d="M287 262L174 337L229 493L304 465V853H596V465L671 493L726 337L613 262L535 216H365L287 262Z" fill="#2f4c6f"/>
+  <path d="M365 216C372 262 405 292 450 292C495 292 528 262 535 216" stroke="#243b58" stroke-width="30"/>
+  <text x="450" y="535" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="58" font-weight="700" fill="#f6efe3">caramelo</text>
+  <text x="450" y="590" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700" letter-spacing="10" fill="#c49a45">FUTEBOL</text>
+</svg>
