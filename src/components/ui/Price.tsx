@@ -1,5 +1,6 @@
 import clsx from "clsx";
 import { formatMoney } from "@/lib/format-money";
+import styles from "./Price.module.scss";
 
 type PriceProps = {
   price: number;
@@ -23,7 +24,7 @@ export function Price({
   className,
 }: PriceProps) {
   return (
-    <span className={clsx("inline-flex flex-wrap items-baseline gap-2", className)}>
+    <span className={clsx(styles.root, "inline-flex flex-wrap items-baseline gap-2", className)}>
       <strong className={clsx("text-foreground", sizeStyles[size])}>
         {formatMoney(price, currency)}
       </strong>

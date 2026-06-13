@@ -1,20 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f3eadc;
-  --foreground: #15120f;
-  --muted: #6c6258;
-  --border: #d5c8b8;
-  --surface: #fbf5eb;
-  --surface-muted: #ebe0d1;
-  --surface-dark: #17130f;
-  --ink-soft: #2a241e;
-  --caramelo: #9a6235;
-  --caramelo-dark: #68401f;
-  --caramelo-light: #ddc0a1;
-  --brasil-yellow: #c79a3b;
-  --brasil-green: #2f5a42;
-  --brasil-blue: #334d70;
+  --background: #f1e2cb;
+  --foreground: #13110d;
+  --muted: #675b4b;
+  --border: #cdb894;
+  --surface: #fff7e8;
+  --surface-muted: #e3caa6;
+  --surface-dark: #15130f;
+  --ink-soft: #30271f;
+  --caramelo: #a85f24;
+  --caramelo-dark: #6f3a18;
+  --caramelo-light: #d89d5b;
+  --brasil-yellow: #c9972d;
+  --brasil-green: #17452f;
+  --brasil-blue: #1f4e68;
+  --brick: #9e2f1f;
+  --radius-brand: 8px;
+  --radius-control: 6px;
+  --shadow-editorial: 0 22px 48px rgba(19, 17, 13, 0.16);
+  --shadow-product: 0 18px 38px rgba(19, 17, 13, 0.14);
+  --shadow-soft: 0 10px 24px rgba(19, 17, 13, 0.1);
 }
 
 @theme inline {
@@ -32,6 +38,7 @@
   --color-brasil-yellow: var(--brasil-yellow);
   --color-brasil-green: var(--brasil-green);
   --color-brasil-blue: var(--brasil-blue);
+  --color-brick: var(--brick);
   --font-sans: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback", ui-monospace, monospace;
 }
@@ -43,14 +50,16 @@
 html {
   min-height: 100%;
   background: var(--background);
+  overflow-x: clip;
   scroll-behavior: smooth;
 }
 
 body {
   min-height: 100%;
+  overflow-x: clip;
   background:
-    linear-gradient(135deg, rgba(21, 18, 15, 0.035) 0 1px, transparent 1px 18px) 0 0 / 28px 28px,
-    linear-gradient(180deg, rgba(255, 250, 242, 0.72), rgba(243, 234, 220, 0.92)),
+    linear-gradient(135deg, rgba(19, 17, 13, 0.03) 0 1px, transparent 1px 18px) 0 0 / 30px 30px,
+    linear-gradient(180deg, rgba(255, 247, 232, 0.74), rgba(241, 226, 203, 0.94)),
     var(--background);
   color: var(--foreground);
   font-family: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
@@ -70,17 +79,17 @@ button {
 }
 
 .text-display {
-  font-size: 5.75rem;
+  font-size: 5.4rem;
   line-height: 0.9;
   letter-spacing: 0;
-  font-weight: 720;
+  font-weight: 820;
 }
 
 .text-section-title {
-  font-size: 4rem;
-  line-height: 0.95;
+  font-size: 3.85rem;
+  line-height: 0.96;
   letter-spacing: 0;
-  font-weight: 720;
+  font-weight: 800;
 }
 
 .text-subtitle {
@@ -92,7 +101,7 @@ button {
 .text-body {
   font-size: 1rem;
   line-height: 1.75;
-  color: #4b4239;
+  color: #453a2f;
 }
 
 .text-small {
@@ -143,8 +152,55 @@ button {
 }
 
 .editorial-card {
-  border-radius: 8px;
-  box-shadow: 0 28px 70px rgba(42, 34, 26, 0.16);
+  border-radius: var(--radius-brand);
+  box-shadow: var(--shadow-editorial);
+}
+
+.product-frame {
+  border: 1.5px solid color-mix(in srgb, var(--foreground) 20%, transparent);
+  border-radius: var(--radius-brand);
+  background:
+    linear-gradient(145deg, rgba(255, 247, 232, 0.32), transparent 44%),
+    linear-gradient(135deg, rgba(19, 17, 13, 0.035) 0 1px, transparent 1px 16px) 0 0 / 24px 24px,
+    var(--surface-muted);
+  box-shadow: var(--shadow-product);
+  overflow: hidden;
+}
+
+.commerce-panel {
+  border: 1px solid color-mix(in srgb, var(--foreground) 18%, transparent);
+  border-radius: var(--radius-brand);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.brand-stamp {
+  display: inline-flex;
+  width: fit-content;
+  align-items: center;
+  border: 1px solid color-mix(in srgb, var(--caramelo) 48%, transparent);
+  border-radius: var(--radius-control);
+  background: color-mix(in srgb, var(--brasil-yellow) 18%, var(--surface));
+  padding: 0.25rem 0.625rem;
+  color: var(--caramelo-dark);
+  font-size: 0.6875rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.marquee-strip {
+  border-block: 1px solid color-mix(in srgb, var(--foreground) 16%, transparent);
+  background: color-mix(in srgb, var(--brasil-yellow) 14%, var(--surface));
+  color: var(--foreground);
+}
+
+.street-texture {
+  background:
+    linear-gradient(135deg, rgba(255, 247, 232, 0.72), rgba(241, 226, 203, 0.92)),
+    radial-gradient(circle at 18% 18%, rgba(168, 95, 36, 0.12), transparent 24%),
+    var(--background);
 }
 
 .editorial-cut {
@@ -156,12 +212,12 @@ button {
 }
 
 .soft-corner {
-  border-radius: 8px;
+  border-radius: var(--radius-brand);
 }
 
 @media (max-width: 767px) {
   .text-display {
-    font-size: 3.65rem;
+    font-size: 3.25rem;
   }
 
   .text-section-title {
@@ -174,6 +230,6 @@ button {
 }
 
 ::selection {
-  background: #8a5a35;
-  color: #fff8ed;
+  background: var(--caramelo);
+  color: var(--surface);
 }

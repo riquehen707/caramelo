@@ -6,6 +6,7 @@ import {
 } from "@/lib/product-images";
 import { Badge } from "@/components/ui/Badge";
 import { Card } from "@/components/ui/Card";
+import styles from "./ProductImageSlotsPreview.module.scss";
 
 type ProductImageSlotsPreviewProps = {
   product: Product;
@@ -15,7 +16,7 @@ export function ProductImageSlotsPreview({
   product,
 }: ProductImageSlotsPreviewProps) {
   return (
-    <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
+    <div className={`${styles.root} grid gap-4 md:grid-cols-2 xl:grid-cols-5`}>
       {PRODUCT_IMAGE_SLOTS.map((slot) => {
         const image = getProductSlotImage(product, slot.type);
         const isPresent = !image.isPlaceholder;

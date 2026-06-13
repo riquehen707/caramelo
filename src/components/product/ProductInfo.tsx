@@ -3,13 +3,15 @@
 import { useState } from "react";
 import { AlertCircle, Check, Minus, Plus, ShoppingBag } from "lucide-react";
 import type { Product } from "@/lib/commerce/types";
-import { Badge } from "@/components/ui/Badge";
+import { BrandStamp } from "@/components/ui/BrandStamp";
 import { Button } from "@/components/ui/Button";
+import { CommercePanel } from "@/components/ui/CommercePanel";
 import { Price } from "@/components/ui/Price";
 import { useCartStore } from "@/store/cart-store";
 import { ColorSelector } from "./ColorSelector";
 import { ProductTrustInfo } from "./ProductTrustInfo";
 import { SizeSelector } from "./SizeSelector";
+import styles from "./ProductInfo.module.scss";
 
 type ProductInfoProps = {
   product: Product;
@@ -46,10 +48,10 @@ export function ProductInfo({ product }: ProductInfoProps) {
   }
 
   return (
-    <div className="editorial-card grid gap-8 border border-foreground/12 bg-surface p-5 lg:sticky lg:top-24 lg:p-7">
+    <CommercePanel className={`${styles.root} grid gap-7 p-5 lg:sticky lg:top-24 lg:p-7`}>
       <div className="grid gap-4 border-b border-foreground/12 pb-6">
         {product.collection ? (
-          <Badge variant="caramelo">{product.collection}</Badge>
+          <BrandStamp>{product.collection}</BrandStamp>
         ) : null}
         <h1 className="max-w-xl text-4xl font-bold leading-none text-foreground sm:text-5xl">
           {product.name}
@@ -62,7 +64,24 @@ export function ProductInfo({ product }: ProductInfoProps) {
         />
       </div>
 
-      <p className="text-body max-w-xl">{product.description}</p>
+      <p className="text-body max-w-xl">Descrição breve do produto.</p>
+
+      <div className="grid grid-cols-3 gap-2 border-y-2 border-foreground py-4 text-sm">
+        <div>
+          <p className="text-label text-caramelo">Base</p>
+          <p className="mt-1 font-semibold text-foreground">{product.category}</p>
+        </div>
+        <div>
+          <p className="text-label text-caramelo">Linha</p>
+          <p className="mt-1 font-semibold text-foreground">
+            {product.collection ?? "Caramelo"}
+          </p>
+        </div>
+        <div>
+          <p className="text-label text-caramelo">Pedido</p>
+          <p className="mt-1 font-semibold text-foreground">WhatsApp</p>
+        </div>
+      </div>
 
       {product.colors?.length ? (
         <ColorSelector
@@ -82,7 +101,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
 
       <div className="grid gap-3">
         <span className="text-label text-muted">Quantidade</span>
-        <div className="inline-flex h-12 w-fit items-center border border-foreground/15 bg-background">
+        <div className="inline-flex h-12 w-fit items-center rounded-[var(--radius-control)] border-2 border-foreground bg-background shadow-[var(--shadow-soft)]">
           <button
             type="button"
             aria-label="Diminuir quantidade"
@@ -111,6 +130,7 @@ export function ProductInfo({ product }: ProductInfoProps) {
           onClick={handleAddToCart}
           disabled={!product.availableForSale}
           size="lg"
+          className="w-full"
           leftIcon={<ShoppingBag size={20} strokeWidth={2.5} />}
         >
           Adicionar ao carrinho
@@ -133,12 +153,12 @@ export function ProductInfo({ product }: ProductInfoProps) {
         ) : null}
         <p className="text-small">
           {product.availableForSale
-            ? "Escolha tamanho e cor para fechar a peça."
+            ? "Revise tamanho, cor e quantidade antes do WhatsApp."
             : "Produto esgotado."}
         </p>
       </div>
 
       <ProductTrustInfo />
-    </div>
+    </CommercePanel>
   );
 }

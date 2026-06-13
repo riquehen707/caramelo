@@ -1,6 +1,7 @@
 import Link from "next/link";
 import type { ButtonHTMLAttributes, ComponentProps, ReactNode } from "react";
 import clsx from "clsx";
+import styles from "./Button.module.scss";
 
 type ButtonVariant = "primary" | "secondary" | "ghost" | "dark" | "outline";
 type ButtonSize = "sm" | "md" | "lg";
@@ -29,14 +30,14 @@ type ButtonProps = ButtonLinkProps | ButtonElementProps;
 
 const variantStyles: Record<ButtonVariant, string> = {
   primary:
-    "border-caramelo bg-caramelo text-white shadow-[0_18px_35px_rgba(104,64,31,0.18)] hover:border-caramelo-dark hover:bg-caramelo-dark",
+    "border-foreground bg-caramelo text-white shadow-[var(--shadow-soft)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-brick",
   secondary:
-    "border-border bg-surface text-foreground hover:border-caramelo hover:bg-[#fffaf2] hover:text-caramelo-dark",
+    "border-foreground bg-surface text-foreground shadow-[var(--shadow-soft)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-brasil-yellow",
   ghost:
     "border-transparent bg-transparent text-foreground hover:bg-surface-muted",
-  dark: "border-surface-dark bg-surface-dark text-white shadow-[0_18px_35px_rgba(21,18,15,0.2)] hover:bg-[#2a2119]",
+  dark: "border-foreground bg-surface-dark text-white shadow-[var(--shadow-soft)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-brasil-green",
   outline:
-    "border-foreground/25 bg-transparent text-foreground hover:border-foreground hover:bg-foreground hover:text-background",
+    "border-foreground bg-transparent text-foreground shadow-[var(--shadow-soft)] hover:-translate-x-0.5 hover:-translate-y-0.5 hover:bg-foreground hover:text-background",
 };
 
 const sizeStyles: Record<ButtonSize, string> = {
@@ -58,7 +59,8 @@ export function Button(props: ButtonProps) {
   } = props;
 
   const classes = clsx(
-    "inline-flex items-center justify-center gap-2 rounded-[6px] border font-semibold transition duration-200 focus-visible:outline-caramelo disabled:pointer-events-none disabled:opacity-55",
+    styles.root,
+    "inline-flex items-center justify-center gap-2 rounded-[var(--radius-control)] border-2 font-black uppercase tracking-[0.04em] transition duration-200 focus-visible:outline-caramelo disabled:pointer-events-none disabled:translate-x-0 disabled:translate-y-0 disabled:opacity-55",
     variantStyles[variant],
     sizeStyles[size],
     className,

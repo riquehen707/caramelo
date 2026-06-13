@@ -1,9 +1,9 @@
 "use client";
 
 import Link from "next/link";
-import { Menu } from "lucide-react";
-import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { CartDrawer } from "@/components/cart/CartDrawer";
+import styles from "./Header.module.scss";
 
 const navItems = [
   { href: "/produtos", label: "Produtos" },
@@ -11,61 +11,92 @@ const navItems = [
   { href: "/carrinho", label: "Carrinho" },
 ];
 
+const mobileNavItems = navItems.filter((item) => item.href !== "/carrinho");
+
 export function Header() {
-  const [menuOpen, setMenuOpen] = useState(false);
+  const pathname = usePathname();
 
   return (
-    <header className="sticky top-0 z-40 border-b border-foreground/10 bg-[#f3eadc]/92 backdrop-blur-xl">
-      <div className="mx-auto flex h-[76px] w-full max-w-[1480px] items-center justify-between px-5 sm:px-8 lg:px-12">
+    <header className={`${styles.root} sticky top-0 z-40 border-b border-border bg-surface/95`}>
+      <div className="mx-auto flex h-[72px] w-full max-w-[1480px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
         <Link
           href="/"
-          className="group flex items-baseline gap-3 text-2xl font-black leading-none text-foreground"
+          aria-label="Ir para a home da Caramelo"
+          className="flex min-w-0 items-center gap-3 text-2xl font-black leading-none text-foreground"
         >
-          <span>Caramelo</span>
-          <span className="hidden text-[10px] font-semibold uppercase tracking-[0.16em] text-caramelo md:inline">
+          <span className="grid size-10 shrink-0 place-items-center rounded-[var(--radius-control)] bg-surface-dark text-[0.72rem] font-bold uppercase tracking-[0.08em] text-surface">
+            CA
+          </span>
+          <span className="truncate">Caramelo</span>
+          <span className="hidden border-l border-border pl-3 text-[10px] font-semibold uppercase tracking-[0.16em] text-caramelo md:inline">
             Brasil de rua
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-9 text-sm font-semibold text-foreground/70 md:flex">
+        <nav
+          aria-label="Navegação principal"
+          className="hidden items-center gap-8 text-sm font-semibold text-muted md:flex"
+        >
           {navItems.map((item) => (
-            <Link
+            <HeaderLink
               key={item.href}
               href={item.href}
-              className="transition hover:text-foreground"
+              active={isActivePath(pathname, item.href)}
             >
               {item.label}
-            </Link>
+            </HeaderLink>
           ))}
         </nav>
 
-        <div className="flex items-center gap-2">
+        <div className="shrink-0">
           <CartDrawer />
-          <button
-            type="button"
-            aria-label="Abrir menu"
-            onClick={() => setMenuOpen((current) => !current)}
-            className="grid size-11 place-items-center border border-foreground/15 bg-surface text-foreground md:hidden"
-          >
-            <Menu size={19} strokeWidth={2.5} />
-          </button>
         </div>
       </div>
 
-      {menuOpen ? (
-        <nav className="grid gap-1 border-t border-foreground/10 bg-background px-5 py-3 md:hidden">
-          {navItems.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              onClick={() => setMenuOpen(false)}
-              className="px-1 py-3 text-sm font-semibold text-foreground/75"
-            >
-              {item.label}
-            </Link>
-          ))}
-        </nav>
-      ) : null}
+      <nav
+        aria-label="Navegação mobile"
+        className="grid grid-cols-2 border-t border-border bg-surface md:hidden"
+      >
+        {mobileNavItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className="border-r border-border px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.08em] text-foreground last:border-r-0"
+          >
+            {item.label}
+          </Link>
+        ))}
+      </nav>
     </header>
   );
+}
+
+function HeaderLink({
+  href,
+  active,
+  children,
+}: {
+  href: string;
+  active: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <Link
+      href={href}
+      className={
+        active
+          ? "text-foreground underline decoration-[var(--caramelo)] decoration-2 underline-offset-8"
+          : "transition hover:text-foreground"
+      }
+    >
+      {children}
+    </Link>
+  );
+}
+
+function isActivePath(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  if (href.includes("#")) return false;
+
+  return pathname === href || pathname.startsWith(`${href}/`);
 }

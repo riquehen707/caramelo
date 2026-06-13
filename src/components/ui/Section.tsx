@@ -1,6 +1,7 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import clsx from "clsx";
 import { Container } from "./Container";
+import styles from "./Section.module.scss";
 
 type SectionProps = HTMLAttributes<HTMLElement> & {
   children: ReactNode;
@@ -23,7 +24,7 @@ export function Section({
   ...props
 }: SectionProps) {
   return (
-    <section className={clsx("border-b border-border", toneStyles[tone], className)} {...props}>
+    <section className={clsx(styles.root, "border-b border-border", toneStyles[tone], className)} {...props}>
       {contained ? <Container className="py-14 sm:py-16">{children}</Container> : children}
     </section>
   );

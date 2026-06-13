@@ -1,5 +1,6 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import clsx from "clsx";
+import styles from "./Grid.module.scss";
 
 type GridProps = HTMLAttributes<HTMLDivElement> & {
   columns?: "two" | "three" | "four" | "products";
@@ -21,7 +22,7 @@ export function Grid({
   ...props
 }: GridProps) {
   return (
-    <div className={clsx("grid gap-5", columnStyles[columns], className)} {...props}>
+    <div className={clsx(styles.root, "grid gap-5", columnStyles[columns], className)} {...props}>
       {children}
     </div>
   );

@@ -4,33 +4,36 @@ import { ArrowRight } from "lucide-react";
 import type { Product } from "@/lib/commerce/types";
 import { getProductMainImage } from "@/lib/product-images";
 import { Button } from "@/components/ui/Button";
+import { BrandStamp } from "@/components/ui/BrandStamp";
 import { Container } from "@/components/ui/Container";
+import { MarqueeStrip } from "@/components/ui/MarqueeStrip";
 import { Price } from "@/components/ui/Price";
+import { ProductFrame } from "@/components/ui/ProductFrame";
+import styles from "./HeroSection.module.scss";
 
 type HeroSectionProps = {
   primaryProduct?: Product;
   secondaryProduct?: Product;
 };
 
-const stamps = ["Rua", "Futebol", "Cultura popular", "Caramelo"];
+const stamps = ["Rua", "Futebol", "Humor", "Caramelo"];
 
 export function HeroSection({
   primaryProduct,
   secondaryProduct,
 }: HeroSectionProps) {
   return (
-    <section className="relative isolate overflow-hidden bg-surface-dark text-background">
-      <div className="absolute inset-x-0 top-0 h-28 bg-[#251b13]" />
-      <Container className="relative grid min-h-[calc(100vh-76px)] gap-10 py-8 lg:grid-cols-[0.76fr_1.24fr] lg:items-center lg:py-12">
-        <div className="relative z-10">
-          <p className="text-label text-[#d5a067]">Drop 01 / Brasil Caramelo</p>
-          <h1 className="mt-6 max-w-[9.5ch] text-display text-[#fff6e8]">
-            Camisetas brasileiras sem fantasia.
+    <section className={`${styles.root} relative overflow-hidden border-b border-border bg-background`}>
+      <Container className="grid gap-12 py-10 md:py-14 lg:min-h-[calc(100vh-76px)] lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:py-16">
+        <div className="max-w-2xl">
+          <BrandStamp>Drop 01 / Brasil Caramelo</BrandStamp>
+          <h1 className="mt-6 text-display text-foreground">
+            Camisetas brasileiras.
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-[#d8cabb]">
-            Rua, futebol e cultura popular em peças com identidade nacional e
-            visual de marca.
+          <p className="mt-6 max-w-xl text-lg leading-8 text-muted">
+            Produto direto, visual brasileiro e pedido simples pelo WhatsApp.
           </p>
+
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button
               href="/produtos"
@@ -40,107 +43,119 @@ export function HeroSection({
             >
               Ver coleção
             </Button>
-            <Button
-              href="#marca"
-              variant="outline"
-              size="lg"
-              className="border-white/25 text-white hover:border-white hover:bg-white hover:text-surface-dark"
-            >
-              Conhecer a Caramelo
+            <Button href="#colecao" variant="secondary" size="lg">
+              Produtos em destaque
             </Button>
+          </div>
+
+          <div className="mt-8 grid max-w-xl grid-cols-3 overflow-hidden rounded-[var(--radius-brand)] border border-border bg-surface">
+            <HeroNote label="Pedido" value="WhatsApp" />
+            <HeroNote label="Base" value="Camiseta" />
+            <HeroNote label="Drop" value="01" />
           </div>
         </div>
 
-        <div className="relative min-h-[600px] lg:min-h-[720px]">
-          <div className="absolute right-0 top-6 hidden h-[88%] w-[78%] rotate-2 rounded-[8px] bg-[#d6b083] opacity-90 lg:block" />
-          <div className="absolute bottom-16 left-0 hidden h-28 w-64 -rotate-6 rounded-[8px] bg-brasil-green/75 lg:block" />
-
+        <div className="relative grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(180px,0.48fr)] md:items-end">
           {primaryProduct ? (
-            <HeroProduct
-              product={primaryProduct}
-              className="absolute left-0 top-8 w-[78%] rotate-[-3deg] md:left-6 lg:left-10 lg:w-[62%]"
-              featured
-            />
-          ) : null}
+            <FeaturedHeroProduct product={primaryProduct} />
+          ) : (
+            <EmptyHeroProduct />
+          )}
 
           {secondaryProduct ? (
-            <HeroProduct
-              product={secondaryProduct}
-              className="absolute bottom-8 right-0 w-[58%] rotate-[4deg] md:w-[44%] lg:right-4"
-            />
+            <MiniHeroProduct product={secondaryProduct} />
           ) : null}
-
-          <div className="absolute right-4 top-12 hidden rounded-[8px] border border-white/18 bg-white/10 px-4 py-5 text-right backdrop-blur md:block">
-            <p className="text-label text-[#d5a067]">Sem souvenir</p>
-            <p className="mt-20 max-w-[13rem] text-2xl font-semibold leading-tight text-white">
-              Brasil como repertório, não fantasia.
-            </p>
-          </div>
         </div>
       </Container>
 
-      <div className="relative z-10 border-y border-white/10 bg-[#f3eadc] text-surface-dark">
-        <Container className="flex flex-wrap items-center justify-between gap-3 py-4">
-          {stamps.map((stamp, index) => (
-            <span
-              key={stamp}
-              className="text-sm font-black uppercase tracking-[0.12em]"
-            >
-              {index > 0 ? <span className="mr-3 text-caramelo">/</span> : null}
-              {stamp}
-            </span>
-          ))}
-        </Container>
-      </div>
+      <MarqueeStrip items={stamps} />
     </section>
   );
 }
 
-function HeroProduct({
-  product,
-  featured = false,
-  className,
-}: {
-  product: Product;
-  featured?: boolean;
-  className?: string;
-}) {
+function HeroNote({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="border-r border-border px-4 py-3 last:border-r-0">
+      <p className="text-label text-caramelo">{label}</p>
+      <p className="mt-1 text-sm font-semibold text-foreground">{value}</p>
+    </div>
+  );
+}
+
+function FeaturedHeroProduct({ product }: { product: Product }) {
   const image = getProductMainImage(product);
 
   return (
     <Link
       href={`/produtos/${product.slug}`}
-      className={`group editorial-card block overflow-hidden border border-white/20 bg-[#e7dccb] text-foreground transition duration-500 hover:rotate-0 ${className ?? ""}`}
+      className="group block text-foreground"
       aria-label={`Ver produto ${product.name}`}
     >
-      <div className={featured ? "relative aspect-[4/5]" : "relative aspect-[4/5]"}>
-        <Image
-          src={image.url}
-          alt={image.alt}
-          fill
-          priority={featured}
-          sizes={featured ? "(min-width: 1024px) 46vw, 90vw" : "360px"}
-          className="object-contain p-7 transition duration-500 group-hover:scale-[1.04] md:p-9"
-          unoptimized={image.isPlaceholder || image.url.endsWith(".svg")}
-        />
-      </div>
-      <div className="flex items-end justify-between gap-4 bg-surface p-4">
-        <div>
-          <p className="text-label text-caramelo">
-            {featured ? "Peça principal" : "Também no drop"}
-          </p>
-          <h2 className="mt-1 max-w-72 text-base font-semibold leading-tight">
-            {product.name}
-          </h2>
+      <ProductFrame interactive className="bg-surface">
+        <div className="relative aspect-[4/5]">
+          <Image
+            src={image.url}
+            alt={image.alt}
+            fill
+            priority
+            sizes="(min-width: 1024px) 42vw, 92vw"
+            className="object-contain p-8 transition duration-500 group-hover:scale-[1.035] md:p-10"
+            unoptimized={image.isPlaceholder || image.url.endsWith(".svg")}
+          />
         </div>
-        {featured ? (
+        <div className="flex items-end justify-between gap-4 border-t border-border bg-surface p-5">
+          <div>
+            <BrandStamp>Peça principal</BrandStamp>
+            <h2 className="mt-2 max-w-sm text-lg font-semibold leading-tight text-foreground">
+              {product.name}
+            </h2>
+          </div>
           <Price
             price={product.price}
             compareAtPrice={product.compareAtPrice}
             currency={product.currency}
           />
-        ) : null}
-      </div>
+        </div>
+      </ProductFrame>
     </Link>
+  );
+}
+
+function MiniHeroProduct({ product }: { product: Product }) {
+  const image = getProductMainImage(product);
+
+  return (
+    <Link
+      href={`/produtos/${product.slug}`}
+      className="group block text-foreground md:mb-8"
+      aria-label={`Ver produto ${product.name}`}
+    >
+      <ProductFrame interactive className="bg-surface">
+        <div className="relative aspect-[4/5]">
+          <Image
+            src={image.url}
+            alt={image.alt}
+            fill
+            sizes="(min-width: 1024px) 22vw, 70vw"
+            className="object-contain p-6 transition duration-500 group-hover:scale-[1.035]"
+            unoptimized={image.isPlaceholder || image.url.endsWith(".svg")}
+          />
+        </div>
+        <div className="border-t border-border bg-surface p-4">
+          <BrandStamp>Também no drop</BrandStamp>
+          <h2 className="mt-2 text-sm font-semibold leading-tight text-foreground">
+            {product.name}
+          </h2>
+        </div>
+      </ProductFrame>
+    </Link>
+  );
+}
+
+function EmptyHeroProduct() {
+  return (
+    <div className="grid min-h-[420px] place-items-center rounded-[var(--radius-brand)] border border-border bg-surface p-8 text-center">
+      <p className="text-small">Produto em destaque.</p>
+    </div>
   );
 }

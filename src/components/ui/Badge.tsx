@@ -1,5 +1,6 @@
 import type { HTMLAttributes, ReactNode } from "react";
 import clsx from "clsx";
+import styles from "./Badge.module.scss";
 
 type BadgeVariant =
   | "default"
@@ -16,13 +17,13 @@ type BadgeProps = HTMLAttributes<HTMLSpanElement> & {
 };
 
 const variantStyles: Record<BadgeVariant, string> = {
-  default: "border-border bg-surface/75 text-muted",
-  caramelo: "border-caramelo/35 bg-caramelo/10 text-caramelo-dark",
-  dark: "border-surface-dark bg-surface-dark text-white",
-  yellow: "border-brasil-yellow/35 bg-brasil-yellow/10 text-[#7b5a18]",
-  green: "border-brasil-green/35 bg-brasil-green/10 text-brasil-green",
-  blue: "border-brasil-blue/35 bg-brasil-blue/10 text-brasil-blue",
-  muted: "border-border bg-transparent text-muted",
+  default: "border-foreground bg-surface text-foreground",
+  caramelo: "border-foreground bg-caramelo text-white",
+  dark: "border-foreground bg-surface-dark text-white",
+  yellow: "border-foreground bg-brasil-yellow text-foreground",
+  green: "border-foreground bg-brasil-green text-white",
+  blue: "border-foreground bg-brasil-blue text-white",
+  muted: "border-foreground bg-transparent text-foreground",
 };
 
 export function Badge({
@@ -34,7 +35,8 @@ export function Badge({
   return (
     <span
       className={clsx(
-        "inline-flex w-fit items-center border px-2.5 py-1 text-label",
+        styles.root,
+        "inline-flex w-fit items-center rounded-[var(--radius-control)] border px-2.5 py-1 text-label shadow-[2px_2px_0_var(--foreground)]",
         variantStyles[variant],
         className,
       )}

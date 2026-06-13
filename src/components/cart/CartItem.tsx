@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Minus, Plus, Trash2 } from "lucide-react";
 import { Price } from "@/components/ui/Price";
 import { useCartStore, type CartItem as CartLine } from "@/store/cart-store";
+import styles from "./CartItem.module.scss";
 
 type CartItemProps = {
   item: CartLine;
@@ -15,76 +16,96 @@ export function CartItem({ item }: CartItemProps) {
   const decreaseQuantity = useCartStore((state) => state.decreaseQuantity);
   const removeItem = useCartStore((state) => state.removeItem);
 
+  const options = [
+    item.selectedSize ? `Tamanho ${item.selectedSize}` : null,
+    item.selectedColor ? `Cor ${item.selectedColor}` : null,
+  ].filter(Boolean);
+
   return (
-    <div className="grid grid-cols-[84px_1fr] gap-4 border-b border-foreground/10 py-5">
+    <article className={`${styles.root} grid grid-cols-[88px_1fr] gap-4 border-b border-foreground/10 py-5 last:border-b-0 sm:grid-cols-[104px_1fr]`}>
       <Link
         href={`/produtos/${item.slug}`}
-        className="relative aspect-square overflow-hidden bg-[#e8dccb]"
+        className="relative aspect-square overflow-hidden rounded-[var(--radius-control)] border border-foreground/12 bg-[var(--surface-muted)]"
       >
         <Image
           src={item.image.url}
           alt={item.image.alt}
           fill
-          sizes="72px"
+          sizes="104px"
           className="object-contain p-3"
           unoptimized={item.image.isPlaceholder || item.image.url.endsWith(".svg")}
         />
       </Link>
-      <div className="grid gap-3">
+
+      <div className="min-w-0 space-y-4">
         <div className="flex items-start justify-between gap-3">
-          <div>
+          <div className="min-w-0">
             <Link
               href={`/produtos/${item.slug}`}
-              className="font-semibold leading-tight text-foreground hover:underline"
+              className="block text-sm font-semibold leading-snug text-foreground transition hover:text-[var(--caramelo)]"
             >
               {item.name}
             </Link>
-            <p className="text-small mt-1">
-              {[item.selectedSize ? `Tamanho ${item.selectedSize}` : null, item.selectedColor].filter(Boolean).join(" / ") ||
-                "Sem variante"}
-            </p>
+            {options.length > 0 ? (
+              <p className="mt-1 text-xs leading-relaxed text-muted">
+                {options.join(" / ")}
+              </p>
+            ) : null}
           </div>
           <button
             type="button"
-            aria-label={`Remover ${item.name}`}
+            aria-label={`Remover ${item.name} do carrinho`}
             onClick={() =>
               removeItem(item.productId, item.selectedSize, item.selectedColor)
             }
-            className="grid size-9 shrink-0 place-items-center border border-foreground/15 text-muted transition hover:border-caramelo hover:text-foreground"
+            className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-[var(--radius-control)] border border-foreground/10 text-muted transition hover:border-[var(--caramelo)] hover:text-[var(--caramelo)]"
           >
-            <Trash2 size={16} />
-            <span className="sr-only">Remover</span>
+            <Trash2 className="h-4 w-4" aria-hidden />
           </button>
         </div>
+
         <div className="flex items-center justify-between gap-3">
-          <div className="inline-flex h-10 items-center border border-foreground/15 bg-background">
+          <div className="inline-flex h-10 items-center rounded-[var(--radius-control)] border border-foreground/12 bg-[var(--surface)]">
             <button
               type="button"
-              aria-label="Diminuir quantidade"
+              aria-label={`Diminuir quantidade de ${item.name}`}
               onClick={() =>
-                decreaseQuantity(item.productId, item.selectedSize, item.selectedColor)
+                decreaseQuantity(
+                  item.productId,
+                  item.selectedSize,
+                  item.selectedColor,
+                )
               }
-              className="grid size-10 place-items-center text-foreground"
+              className="inline-flex h-10 w-10 items-center justify-center text-muted transition hover:text-foreground"
             >
-              <Minus size={15} />
+              <Minus className="h-4 w-4" aria-hidden />
             </button>
-            <span className="min-w-8 text-center text-sm font-semibold">
+            <span className="w-8 text-center text-sm font-semibold">
               {item.quantity}
             </span>
             <button
               type="button"
-              aria-label="Aumentar quantidade"
+              aria-label={`Aumentar quantidade de ${item.name}`}
               onClick={() =>
-                increaseQuantity(item.productId, item.selectedSize, item.selectedColor)
+                increaseQuantity(
+                  item.productId,
+                  item.selectedSize,
+                  item.selectedColor,
+                )
               }
-              className="grid size-10 place-items-center text-foreground"
+              className="inline-flex h-10 w-10 items-center justify-center text-muted transition hover:text-foreground"
             >
-              <Plus size={15} />
+              <Plus className="h-4 w-4" aria-hidden />
             </button>
           </div>
-          <Price price={item.price * item.quantity} currency={item.currency} />
+
+          <Price
+            price={item.price * item.quantity}
+            currency={item.currency}
+            className="text-base font-semibold"
+          />
         </div>
       </div>
-    </div>
+    </article>
   );
 }

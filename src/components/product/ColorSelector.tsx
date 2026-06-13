@@ -2,6 +2,7 @@
 
 import clsx from "clsx";
 import { getColorSwatch } from "@/lib/product-style";
+import styles from "./ColorSelector.module.scss";
 
 type ColorSelectorProps = {
   colors: string[];
@@ -16,9 +17,9 @@ export function ColorSelector({
 }: ColorSelectorProps) {
   if (colors.length === 1) {
     return (
-      <div className="grid gap-3">
+      <div className={`${styles.root} grid gap-3`}>
         <span className="text-label text-muted">Escolha a cor</span>
-        <span className="inline-flex w-fit items-center gap-2 rounded-[6px] border border-foreground/15 bg-background px-3 py-2 text-sm text-foreground">
+        <span className="inline-flex w-fit items-center gap-2 rounded-[var(--radius-control)] border-2 border-foreground bg-background px-3 py-2 text-sm font-semibold text-foreground shadow-[var(--shadow-soft)]">
           <span
             className="size-3 rounded-full border border-border"
             style={{ backgroundColor: getColorSwatch(colors[0]) }}
@@ -30,7 +31,7 @@ export function ColorSelector({
   }
 
   return (
-    <div className="grid gap-3">
+    <div className={`${styles.root} grid gap-3`}>
       <span className="text-label text-muted">Escolha a cor</span>
       <div className="flex flex-wrap gap-2">
         {colors.map((color) => (
@@ -40,10 +41,10 @@ export function ColorSelector({
             onClick={() => onChange(color)}
             aria-pressed={selectedColor === color}
             className={clsx(
-              "inline-flex items-center gap-2 rounded-[6px] border px-3 py-2 text-sm font-medium transition",
+              "inline-flex min-h-11 items-center gap-2 rounded-[var(--radius-control)] border-2 px-3 py-2 text-sm font-black transition",
               selectedColor === color
-                ? "border-caramelo bg-caramelo/10 text-caramelo-dark"
-                : "border-foreground/15 bg-background text-foreground hover:border-caramelo",
+                ? "border-foreground bg-brasil-yellow text-foreground shadow-[var(--shadow-soft)]"
+                : "border-foreground bg-background text-foreground hover:bg-surface-muted",
             )}
           >
             <span

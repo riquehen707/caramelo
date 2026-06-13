@@ -3,7 +3,9 @@
 import Link from "next/link";
 import { ArrowLeft, MessageCircle, ShieldCheck } from "lucide-react";
 import { CartItem } from "./CartItem";
+import { BrandStamp } from "@/components/ui/BrandStamp";
 import { Button } from "@/components/ui/Button";
+import { CommercePanel } from "@/components/ui/CommercePanel";
 import { Container } from "@/components/ui/Container";
 import { Price } from "@/components/ui/Price";
 import { useCartStore } from "@/store/cart-store";
@@ -11,6 +13,7 @@ import {
   createWhatsAppOrderLink,
   isWhatsAppOrderEnabled,
 } from "@/lib/whatsapp";
+import styles from "./CartPage.module.scss";
 
 export function CartPage() {
   const items = useCartStore((state) => state.items);
@@ -22,27 +25,29 @@ export function CartPage() {
   const canFinishByWhatsApp = items.length > 0 && hasWhatsAppNumber;
 
   return (
-    <main className="bg-background">
-      <Container className="grid gap-8 py-10 lg:grid-cols-[1fr_380px] lg:py-16">
+    <main className={`${styles.root} bg-background`}>
+      <Container className="grid gap-8 py-10 lg:grid-cols-[minmax(0,1fr)_390px] lg:py-16">
         <section className="grid gap-7">
-          <div className="border-b border-foreground/15 pb-6">
+          <div className="border-b border-foreground/15 pb-7">
             <Link
               href="/produtos"
-              className="inline-flex items-center gap-2 text-sm font-semibold text-caramelo hover:underline"
+              className="inline-flex items-center gap-2 text-sm font-semibold text-[var(--caramelo-dark)] underline-offset-4 hover:underline"
             >
               <ArrowLeft size={17} />
               Continuar comprando
             </Link>
-            <h1 className="mt-5 text-section-title text-foreground">
-              Carrinho
-            </h1>
-            <p className="mt-4 max-w-xl text-lg leading-8 text-foreground/68">
-              Revise tamanho, cor e quantidade antes de finalizar o pedido
-              manualmente.
-            </p>
+            <div className="mt-6 max-w-2xl">
+              <BrandStamp>Pedido Caramelo</BrandStamp>
+              <h1 className="mt-4 text-section-title text-foreground">
+                Revise seu carrinho
+              </h1>
+              <p className="mt-4 text-lg font-semibold leading-7 text-foreground">
+                Confira tamanho, cor e quantidade. Finalize pelo WhatsApp.
+              </p>
+            </div>
           </div>
 
-          <div className="border border-foreground/15 bg-surface px-4 md:px-5">
+          <CommercePanel className="px-4 py-0 md:px-5">
             {items.length ? (
               items.map((item) => (
                 <CartItem
@@ -52,10 +57,10 @@ export function CartPage() {
               ))
             ) : (
               <div className="grid gap-4 py-16 text-center">
-                <p className="text-2xl font-bold text-foreground">
+                <p className="text-2xl font-semibold tracking-tight text-foreground">
                   Seu carrinho está vazio.
                 </p>
-                <p className="text-small mx-auto max-w-sm">
+                <p className="mx-auto max-w-sm text-sm leading-6 text-muted">
                   Explore a coleção Brasil Caramelo e escolha sua próxima
                   camiseta.
                 </p>
@@ -64,30 +69,37 @@ export function CartPage() {
                 </Button>
               </div>
             )}
-          </div>
+          </CommercePanel>
         </section>
 
-        <aside className="h-fit border border-foreground/15 bg-surface p-5 lg:sticky lg:top-24">
+        <CommercePanel as="aside" className="h-fit p-5 lg:sticky lg:top-24">
           <div className="border-b border-foreground/12 pb-5">
-            <p className="text-label text-caramelo">Resumo do pedido</p>
-            <h2 className="mt-3 text-2xl font-bold text-foreground">
+            <BrandStamp>Resumo do pedido</BrandStamp>
+            <h2 className="mt-3 text-2xl font-semibold tracking-tight text-foreground">
               Finalização manual
             </h2>
+            <p className="mt-2 text-sm leading-6 text-muted">
+              Sem pagamento online neste MVP.
+            </p>
           </div>
+
           <div className="mt-5 grid gap-3 border-b border-foreground/12 pb-5">
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between gap-4 text-sm">
               <span className="text-muted">Itens</span>
               <strong className="text-foreground">{totalItems}</strong>
             </div>
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between gap-4 text-sm">
               <span className="text-muted">Subtotal</span>
               <Price price={subtotal} />
             </div>
-            <div className="flex justify-between text-sm">
+            <div className="flex justify-between gap-4 text-sm">
               <span className="text-muted">Entrega</span>
-              <strong className="text-foreground">Calculada no WhatsApp</strong>
+              <strong className="text-right text-foreground">
+                Calculada no WhatsApp
+              </strong>
             </div>
           </div>
+
           <div className="mt-5 grid gap-3">
             {canFinishByWhatsApp ? (
               <Button
@@ -108,22 +120,31 @@ export function CartPage() {
               </Button>
             )}
             {items.length ? (
-              <Button type="button" onClick={clearCart} variant="outline" size="sm">
+              <Button
+                type="button"
+                onClick={clearCart}
+                variant="outline"
+                size="sm"
+              >
                 Limpar carrinho
               </Button>
             ) : null}
           </div>
-          <p className="text-small mt-5 flex items-start gap-2">
-            <ShieldCheck className="mt-0.5 shrink-0 text-caramelo" size={18} />
-            Você será direcionado para o WhatsApp para confirmar disponibilidade,
-            frete e pagamento.
+
+          <p className="mt-5 flex items-start gap-2 text-sm leading-6 text-muted">
+            <ShieldCheck
+              className="mt-0.5 shrink-0 text-[var(--caramelo)]"
+              size={18}
+            />
+            Você será direcionado para o WhatsApp para confirmar
+            disponibilidade, frete e pagamento.
           </p>
           {!hasWhatsAppNumber ? (
-            <p className="text-support mt-3 text-[#9a3f2b]">
+            <p className="mt-3 text-xs font-semibold text-[#9a3f2b]">
               WhatsApp da loja ainda não configurado.
             </p>
           ) : null}
-        </aside>
+        </CommercePanel>
       </Container>
     </main>
   );

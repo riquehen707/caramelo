@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { notFound } from "next/navigation";
 import { commerce } from "@/lib/commerce";
+import { BrandStamp } from "@/components/ui/BrandStamp";
 import { Container } from "@/components/ui/Container";
+import { SectionIntro } from "@/components/ui/SectionIntro";
 import { ProductDetails } from "@/components/product/ProductDetails";
 import { ProductGallery } from "@/components/product/ProductGallery";
 import { ProductGrid } from "@/components/product/ProductGrid";
@@ -71,8 +74,16 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
   return (
     <main className="bg-background">
-      <Container className="grid gap-14 py-10 md:py-14">
-        <section className="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(360px,0.72fr)] lg:items-start">
+      <Container className="grid gap-10 py-8 md:py-12 lg:gap-14">
+        <nav className="flex flex-wrap items-center gap-2 text-sm text-muted">
+          <Link href="/produtos" className="font-semibold text-caramelo hover:underline">
+            Produtos
+          </Link>
+          <span>/</span>
+          <span>{product.name}</span>
+        </nav>
+
+        <section className="grid gap-8 lg:grid-cols-[minmax(0,1.08fr)_minmax(380px,0.72fr)] lg:items-start">
           <ProductGallery product={product} priority />
           <ProductInfo product={product} />
         </section>
@@ -80,18 +91,21 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <ProductDetails product={product} />
 
         {relatedProducts.length ? (
-          <section className="grid gap-8">
-            <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
-              <div>
-                <p className="text-label text-caramelo">Também na coleção</p>
-                <h2 className="mt-3 text-4xl font-bold text-foreground">
-                  Mais peças na mesma linha
-                </h2>
-              </div>
-            </div>
-            <ProductGrid products={relatedProducts} />
+          <section className="grid gap-8 border-t border-foreground/10 pt-10">
+            <SectionIntro
+              eyebrow="Também na coleção"
+              title="Mais peças na mesma linha"
+              description="Compare cores e referências sem sair do catálogo Caramelo."
+              align="between"
+            />
+            <ProductGrid products={relatedProducts} variant="catalog" />
           </section>
-        ) : null}
+        ) : (
+          <div className="flex items-center gap-3 border-t border-foreground/10 pt-8">
+            <BrandStamp>Caramelo</BrandStamp>
+            <p className="text-small">Produto único nesta linha.</p>
+          </div>
+        )}
       </Container>
     </main>
   );

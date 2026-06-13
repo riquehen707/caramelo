@@ -1,6 +1,7 @@
 "use client";
 
 import clsx from "clsx";
+import styles from "./SizeSelector.module.scss";
 
 type SizeSelectorProps = {
   sizes: string[];
@@ -14,7 +15,7 @@ export function SizeSelector({
   onChange,
 }: SizeSelectorProps) {
   return (
-    <div className="grid gap-3">
+    <div className={`${styles.root} grid gap-3`}>
       <div className="flex items-center justify-between gap-4">
         <span className="text-label text-muted">Escolha o tamanho</span>
         <button
@@ -32,10 +33,10 @@ export function SizeSelector({
             onClick={() => onChange(size)}
             aria-pressed={selectedSize === size}
             className={clsx(
-              "h-12 rounded-[6px] border text-sm font-semibold transition",
+              "h-12 rounded-[var(--radius-control)] border-2 text-sm font-black transition",
               selectedSize === size
-                ? "border-surface-dark bg-surface-dark text-white"
-                : "border-foreground/15 bg-background text-foreground hover:border-caramelo",
+                ? "border-foreground bg-surface-dark text-white shadow-[var(--shadow-soft)]"
+                : "border-foreground bg-background text-foreground hover:bg-surface-muted",
             )}
           >
             {size}

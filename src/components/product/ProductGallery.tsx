@@ -4,6 +4,9 @@ import {
   getProductMainImage,
   getPublicProductGalleryImages,
 } from "@/lib/product-images";
+import { BrandStamp } from "@/components/ui/BrandStamp";
+import { ProductFrame } from "@/components/ui/ProductFrame";
+import styles from "./ProductGallery.module.scss";
 
 type ProductGalleryProps = {
   product: Product;
@@ -18,10 +21,10 @@ export function ProductGallery({
   const galleryImages = getPublicProductGalleryImages(product);
 
   return (
-    <div className="grid gap-5">
-      <div className="editorial-card relative overflow-hidden border border-foreground/12 bg-[#e7dccb]">
-        <div className="absolute left-5 top-5 rounded-[8px] bg-surface px-3 py-2 text-label text-caramelo">
-          Caramelo
+    <div className={`${styles.root} grid gap-5`}>
+      <ProductFrame className="relative">
+        <div className="absolute left-5 top-5 z-10">
+          <BrandStamp>{product.collection ?? "Caramelo"}</BrandStamp>
         </div>
         <div className="relative aspect-[4/5] w-full">
           <Image
@@ -35,20 +38,15 @@ export function ProductGallery({
           />
         </div>
         {mainImage.isPlaceholder ? (
-          <span className="absolute bottom-5 left-5 rounded-[6px] bg-surface px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-muted">
-            Mockup temporário
+          <span className="absolute bottom-5 left-5 z-10">
+            <BrandStamp>Mockup temporário</BrandStamp>
           </span>
         ) : null}
-      </div>
+      </ProductFrame>
 
       <div className="grid gap-4 sm:grid-cols-3">
-        {galleryImages.slice(0, 3).map((image, index) => (
-          <div
-            key={`${image.type}-${image.url}`}
-            className={`editorial-card relative aspect-[4/5] overflow-hidden border border-foreground/12 bg-[#e7dccb] ${
-              index === 1 ? "sm:translate-y-5 sm:rotate-1" : "sm:-rotate-1"
-            }`}
-          >
+        {galleryImages.slice(0, 3).map((image) => (
+          <ProductFrame key={`${image.type}-${image.url}`} className="relative aspect-[4/5]">
             <Image
               src={image.url}
               alt={image.alt}
@@ -57,14 +55,12 @@ export function ProductGallery({
               className="object-contain p-5"
               unoptimized={image.isPlaceholder || image.url.endsWith(".svg")}
             />
-          </div>
+          </ProductFrame>
         ))}
-        <div className="editorial-card flex min-h-40 rotate-1 flex-col justify-between border border-foreground/12 bg-surface p-4">
-          <p className="text-label text-caramelo">
-            {product.collection ?? "Caramelo"}
-          </p>
+        <div className="commerce-panel flex min-h-40 flex-col justify-between p-4">
+          <BrandStamp>{product.category}</BrandStamp>
           <span className="text-small">
-            Frente, costas e detalhes preparados para avaliar a peça sem ruído.
+            Imagens do produto.
           </span>
         </div>
       </div>
