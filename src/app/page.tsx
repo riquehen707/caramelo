@@ -25,9 +25,9 @@ export default async function Home() {
         secondaryProduct={products[1]}
       />
       <BrandSnapshot products={products} />
+      <BrandManifesto />
       <CollectionStrip />
       <FeaturedProducts products={featuredProducts} />
-      <BrandManifesto />
       <TrustBar />
       <EditorialBanner product={products[2] ?? products[0]} />
     </main>

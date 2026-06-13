@@ -1,13 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #f1e2cb;
-  --foreground: #13110d;
-  --muted: #675b4b;
-  --border: #cdb894;
-  --surface: #fff7e8;
-  --surface-muted: #e3caa6;
-  --surface-dark: #15130f;
+  --background: #f7eedc;
+  --foreground: #17130d;
+  --muted: #5f5145;
+  --border: #cbb78f;
+  --surface: #fff8ea;
+  --surface-muted: #efe0c7;
+  --surface-dark: #17130d;
   --ink-soft: #30271f;
   --caramelo: #a85f24;
   --caramelo-dark: #6f3a18;
@@ -59,7 +59,7 @@ body {
   overflow-x: clip;
   background:
     linear-gradient(135deg, rgba(19, 17, 13, 0.03) 0 1px, transparent 1px 18px) 0 0 / 30px 30px,
-    linear-gradient(180deg, rgba(255, 247, 232, 0.74), rgba(241, 226, 203, 0.94)),
+    linear-gradient(180deg, rgba(255, 248, 234, 0.82), rgba(247, 238, 220, 0.96)),
     var(--background);
   color: var(--foreground);
   font-family: "Geist", "Geist Fallback", ui-sans-serif, system-ui, sans-serif;
@@ -217,11 +217,13 @@ button {
 
 @media (max-width: 767px) {
   .text-display {
-    font-size: 3.25rem;
+    font-size: 3rem;
+    line-height: 0.94;
   }
 
   .text-section-title {
-    font-size: 2.65rem;
+    font-size: 2.25rem;
+    line-height: 1;
   }
 
   .text-subtitle {

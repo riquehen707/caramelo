@@ -1,79 +1,66 @@
 import Link from "next/link";
 import { ArrowUpRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
-import { EditorialFrame } from "@/components/ui/EditorialFrame";
 import { SectionIntro } from "@/components/ui/SectionIntro";
 import styles from "./CollectionStrip.module.scss";
 
-const collections = [
+const identities = [
   {
-    title: "Rua",
-    description: "Resumo curto da coleção.",
+    title: "Brasil urbano",
+    description: "Rua, banca, arquibancada e rotina.",
     accent: "bg-caramelo",
-    tilt: "left" as const,
-    offset: "md:translate-y-8",
   },
   {
     title: "Futebol",
-    description: "Resumo curto da coleção.",
+    description: "Referência de domingo, sem uniforme.",
     accent: "bg-brasil-blue",
-    tilt: "right" as const,
-    offset: "md:-translate-y-2",
   },
   {
     title: "Humor",
-    description: "Resumo curto da coleção.",
+    description: "Seco, direto e fácil de vestir.",
     accent: "bg-brasil-yellow",
-    tilt: "right" as const,
-    offset: "md:translate-y-12",
   },
   {
     title: "Caramelo",
-    description: "Resumo curto da coleção.",
+    description: "Grafite, creme e calor brasileiro.",
     accent: "bg-brasil-green",
-    tilt: "left" as const,
-    offset: "md:translate-y-3",
   },
 ];
 
 export function CollectionStrip() {
   return (
-    <section className={`${styles.root} overflow-hidden border-b border-foreground/10 bg-background`}>
-      <Container className="py-14 md:py-24">
-        <div className="grid gap-10 lg:grid-cols-[0.34fr_1fr]">
-          <SectionIntro
-            eyebrow="Referências"
-            title="Brasil urbano, sem caricatura."
-            className="lg:max-w-sm"
-          />
-          <div className="grid gap-4 md:grid-cols-4 md:pb-12">
-            {collections.map((collection) => (
-              <Link key={collection.title} href="/produtos" className="group">
-                <EditorialFrame
-                  tilt={collection.tilt}
-                  className={`flex min-h-72 flex-col justify-between p-5 transition duration-500 group-hover:-translate-y-1 group-hover:rotate-0 ${collection.offset}`}
-                >
-                  <div className="flex items-start justify-between">
-                    <span
-                      className={`block h-12 w-12 rounded-[var(--radius-brand)] border-2 border-foreground shadow-[3px_3px_0_var(--foreground)] ${collection.accent}`}
-                    />
-                    <ArrowUpRight
-                      className="text-foreground/35 transition group-hover:text-caramelo"
-                      size={18}
-                    />
-                  </div>
-                  <div>
-                    <h3 className="text-3xl font-black text-foreground">
-                      {collection.title}
-                    </h3>
-                    <p className="text-small mt-4 max-w-[14rem]">
-                      {collection.description}
-                    </p>
-                  </div>
-                </EditorialFrame>
-              </Link>
-            ))}
-          </div>
+    <section className={`${styles.root} border-b border-foreground/10 bg-background`}>
+      <Container className="grid gap-6 py-9 md:grid-cols-[0.38fr_1fr] md:items-start md:gap-10 md:py-16">
+        <SectionIntro
+          eyebrow="Identidade"
+          title="Brasil urbano, sem caricatura."
+          className="md:max-w-sm"
+        />
+
+        <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          {identities.map((item) => (
+            <Link
+              key={item.title}
+              href="/produtos"
+              className="group rounded-[var(--radius-brand)] border border-foreground/15 bg-surface p-4 text-foreground shadow-[var(--shadow-soft)] transition hover:-translate-y-0.5 hover:border-foreground"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <span
+                  className={`block size-7 rounded-[var(--radius-control)] border border-foreground/30 ${item.accent}`}
+                />
+                <ArrowUpRight
+                  className="text-caramelo-dark transition group-hover:text-foreground"
+                  size={16}
+                />
+              </div>
+              <h3 className="mt-4 text-base font-black leading-tight">
+                {item.title}
+              </h3>
+              <p className="mt-2 text-xs font-semibold leading-5 text-muted">
+                {item.description}
+              </p>
+            </Link>
+          ))}
         </div>
       </Container>
     </section>

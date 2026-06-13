@@ -24,38 +24,44 @@ export function HeroSection({
 }: HeroSectionProps) {
   return (
     <section className={`${styles.root} relative overflow-hidden border-b border-border bg-background`}>
-      <Container className="grid gap-12 py-10 md:py-14 lg:min-h-[calc(100vh-76px)] lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:py-16">
+      <Container className="grid gap-8 py-8 md:py-14 lg:min-h-[calc(100vh-76px)] lg:grid-cols-[0.9fr_1.1fr] lg:items-center lg:py-16">
         <div className="max-w-2xl">
           <BrandStamp>Drop 01 / Brasil Caramelo</BrandStamp>
           <h1 className="mt-6 text-display text-foreground">
             Camisetas brasileiras.
           </h1>
-          <p className="mt-6 max-w-xl text-lg leading-8 text-muted">
-            Produto direto, visual brasileiro e pedido simples pelo WhatsApp.
+          <p className="mt-5 max-w-[21rem] text-lg font-semibold leading-7 text-foreground sm:max-w-xl">
+            Peças com humor seco, Brasil de rua e acabamento feito sob demanda.
           </p>
 
-          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          <div className="mt-7 grid w-full max-w-[22rem] gap-3 sm:flex sm:max-w-none sm:flex-row">
             <Button
               href="/produtos"
               variant="primary"
               size="lg"
+              className="w-full sm:w-auto"
               rightIcon={<ArrowRight size={18} strokeWidth={2.4} />}
             >
               Ver coleção
             </Button>
-            <Button href="#colecao" variant="secondary" size="lg">
-              Produtos em destaque
+            <Button
+              href="#marca"
+              variant="secondary"
+              size="lg"
+              className="w-full sm:w-auto"
+            >
+              Conhecer manifesto
             </Button>
           </div>
 
-          <div className="mt-8 grid max-w-xl grid-cols-3 overflow-hidden rounded-[var(--radius-brand)] border border-border bg-surface">
+          <div className="mt-7 hidden max-w-xl grid-cols-3 overflow-hidden rounded-[var(--radius-brand)] border border-border bg-surface sm:grid">
             <HeroNote label="Pedido" value="WhatsApp" />
             <HeroNote label="Base" value="Camiseta" />
             <HeroNote label="Drop" value="01" />
           </div>
         </div>
 
-        <div className="relative grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(180px,0.48fr)] md:items-end">
+        <div className="relative hidden gap-4 md:grid md:grid-cols-[minmax(0,1fr)_minmax(180px,0.48fr)] md:items-end">
           {primaryProduct ? (
             <FeaturedHeroProduct product={primaryProduct} />
           ) : (
@@ -68,7 +74,9 @@ export function HeroSection({
         </div>
       </Container>
 
-      <MarqueeStrip items={stamps} />
+      <div className="hidden sm:block">
+        <MarqueeStrip items={stamps} />
+      </div>
     </section>
   );
 }

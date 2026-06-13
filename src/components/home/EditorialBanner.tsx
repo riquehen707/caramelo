@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ArrowRight } from "lucide-react";
 import type { Product } from "@/lib/commerce/types";
 import { getProductMainImage } from "@/lib/product-images";
 import { BrandStamp } from "@/components/ui/BrandStamp";
@@ -17,42 +18,40 @@ export function EditorialBanner({ product }: EditorialBannerProps) {
 
   return (
     <section className={`${styles.root} bg-background`}>
-      <Container className="py-16 md:py-24">
-        <CommercePanel className="grid overflow-hidden lg:grid-cols-[1fr_0.78fr]">
-          <div className="flex flex-col justify-between gap-12 p-6 md:p-10 lg:p-12">
-            <div>
-              <BrandStamp>Compra simples</BrandStamp>
-              <h2 className="mt-5 max-w-3xl text-section-title text-foreground">
-                Vista o Brasil sem cair no óbvio.
-              </h2>
-              <p className="mt-6 max-w-xl text-lg font-semibold leading-7 text-foreground">
-                Escolha a peça, revise o carrinho e finalize pelo WhatsApp.
-              </p>
-            </div>
-            <div>
-              <Button href="/produtos" variant="dark" size="lg">
-                Explorar coleção
-              </Button>
-            </div>
+      <Container className="py-10 md:py-20">
+        <CommercePanel className="grid overflow-hidden bg-surface lg:grid-cols-[1fr_0.72fr]">
+          <div className="flex flex-col justify-center p-5 md:p-10 lg:p-12">
+            <BrandStamp>Compra simples</BrandStamp>
+            <h2 className="mt-4 max-w-3xl text-section-title text-foreground">
+              Vista o Brasil sem cair no óbvio.
+            </h2>
+            <p className="mt-4 max-w-xl text-base font-semibold leading-7 text-muted md:text-lg">
+              Escolha a camiseta, revise o carrinho e finalize pelo WhatsApp.
+            </p>
+            <Button
+              href="/produtos"
+              variant="dark"
+              size="lg"
+              className="mt-6 w-full sm:w-fit"
+              rightIcon={<ArrowRight size={18} />}
+            >
+              Ver coleção agora
+            </Button>
           </div>
 
-          <div className="border-t border-foreground/12 p-5 lg:border-l lg:border-t-0">
+          <div className="border-t border-foreground/12 p-4 lg:border-l lg:border-t-0">
             {image ? (
-              <ProductFrame className="relative min-h-[420px]">
+              <ProductFrame className="relative min-h-[300px] md:min-h-[420px]">
                 <Image
                   src={image.url}
                   alt={image.alt}
                   fill
-                  sizes="(min-width: 1024px) 40vw, 100vw"
-                  className="object-contain p-8 md:p-12"
+                  sizes="(min-width: 1024px) 36vw, 100vw"
+                  className="object-contain p-6 md:p-10"
                   unoptimized={image.isPlaceholder || image.url.endsWith(".svg")}
                 />
               </ProductFrame>
-            ) : (
-              <div className="grid min-h-[420px] place-items-center p-8 text-center text-small">
-                Produto da próxima coleção
-              </div>
-            )}
+            ) : null}
           </div>
         </CommercePanel>
       </Container>

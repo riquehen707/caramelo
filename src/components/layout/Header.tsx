@@ -11,20 +11,18 @@ const navItems = [
   { href: "/carrinho", label: "Carrinho" },
 ];
 
-const mobileNavItems = navItems.filter((item) => item.href !== "/carrinho");
-
 export function Header() {
   const pathname = usePathname();
 
   return (
-    <header className={`${styles.root} sticky top-0 z-40 border-b border-border bg-surface/95`}>
-      <div className="mx-auto flex h-[72px] w-full max-w-[1480px] items-center justify-between gap-4 px-5 sm:px-8 lg:px-12">
+    <header className={`${styles.root} sticky top-0 z-40 border-b border-foreground/15 bg-surface/95 backdrop-blur`}>
+      <div className="mx-auto flex h-16 w-full max-w-[1480px] items-center justify-between gap-3 px-4 sm:h-[72px] sm:px-8 lg:px-12">
         <Link
           href="/"
           aria-label="Ir para a home da Caramelo"
-          className="flex min-w-0 items-center gap-3 text-2xl font-black leading-none text-foreground"
+          className="flex min-w-0 items-center gap-2 text-xl font-black leading-none text-foreground sm:gap-3 sm:text-2xl"
         >
-          <span className="grid size-10 shrink-0 place-items-center rounded-[var(--radius-control)] bg-surface-dark text-[0.72rem] font-bold uppercase tracking-[0.08em] text-surface">
+          <span className="grid size-9 shrink-0 place-items-center rounded-[var(--radius-control)] bg-surface-dark text-[0.7rem] font-bold uppercase tracking-[0.08em] text-surface sm:size-10">
             CA
           </span>
           <span className="truncate">Caramelo</span>
@@ -52,21 +50,6 @@ export function Header() {
           <CartDrawer />
         </div>
       </div>
-
-      <nav
-        aria-label="Navegação mobile"
-        className="grid grid-cols-2 border-t border-border bg-surface md:hidden"
-      >
-        {mobileNavItems.map((item) => (
-          <Link
-            key={item.href}
-            href={item.href}
-            className="border-r border-border px-4 py-3 text-center text-xs font-semibold uppercase tracking-[0.08em] text-foreground last:border-r-0"
-          >
-            {item.label}
-          </Link>
-        ))}
-      </nav>
     </header>
   );
 }

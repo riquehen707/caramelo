@@ -15,22 +15,22 @@ export function FeaturedProducts({ products }: FeaturedProductsProps) {
 
   return (
     <section id="colecao" className={`${styles.root} border-b border-foreground/10 bg-surface`}>
-      <Container className="grid gap-10 py-16 md:py-24">
+      <Container className="grid gap-7 py-10 md:gap-10 md:py-20">
         <SectionIntro
           eyebrow="Coleção Brasil Caramelo"
           title="Peças para entrar na rotina."
           description={
             <>
-              Texto curto da seção.
+              Camisetas diretas, com produto no centro e pedido simples.
             </>
           }
           align="between"
         />
-        <ProductGrid products={products} variant="editorial" />
+        <ProductGrid products={products} variant="catalog" />
         <div className="flex justify-center">
           <Button
             href="/produtos"
-            variant="outline"
+            variant="dark"
             rightIcon={<ArrowRight size={17} />}
           >
             Ver todos os produtos

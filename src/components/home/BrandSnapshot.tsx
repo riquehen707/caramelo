@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
+import { ArrowRight } from "lucide-react";
 import type { Product } from "@/lib/commerce/types";
 import { getProductMainImage } from "@/lib/product-images";
 import { BrandStamp } from "@/components/ui/BrandStamp";
+import { Button } from "@/components/ui/Button";
 import { Container } from "@/components/ui/Container";
 import { Price } from "@/components/ui/Price";
 import { ProductFrame } from "@/components/ui/ProductFrame";
@@ -12,122 +14,67 @@ type BrandSnapshotProps = {
   products: Product[];
 };
 
-const notes = [
-  "Rua",
-  "Futebol",
-  "Humor seco",
-];
-
 export function BrandSnapshot({ products }: BrandSnapshotProps) {
-  const previewProducts = products.slice(0, 3);
-  const leadProduct = previewProducts[0];
+  const product = products[0];
+
+  if (!product) return null;
+
+  const image = getProductMainImage(product);
 
   return (
-    <section className={`${styles.root} relative overflow-hidden border-b border-foreground/10 bg-surface`}>
-      <Container className="grid gap-12 py-16 lg:grid-cols-[0.92fr_1.08fr] lg:items-center lg:py-24">
-        <div id="marca" className="relative z-10">
-          <BrandStamp>Caramelo / contexto</BrandStamp>
-          <h2 className="mt-5 max-w-2xl text-section-title text-foreground">
-            Marca de camiseta com repertório brasileiro.
-          </h2>
-          <p className="mt-6 max-w-xl text-lg font-semibold leading-7 text-foreground">
-            Texto curto da seção.
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-3">
-            {notes.map((note) => (
-              <BrandStamp key={note}>{note}</BrandStamp>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative min-h-[560px]">
-          <div className="absolute left-8 top-8 h-80 w-72 -rotate-6 rounded-[var(--radius-brand)] border-2 border-foreground bg-caramelo" />
-          {leadProduct ? <SnapshotFeature product={leadProduct} /> : null}
-          <div className="absolute bottom-0 right-0 grid w-[72%] gap-4 sm:w-[58%]">
-            {previewProducts.slice(1).map((product, index) => (
-              <SnapshotMini
-                key={product.id}
-                product={product}
-                tilt={index === 0 ? "right" : "left"}
+    <section className={`${styles.root} border-b border-foreground/10 bg-background`}>
+      <Container className="grid gap-5 py-8 md:grid-cols-[0.9fr_1fr] md:items-center md:gap-10 md:py-16">
+        <Link
+          href={`/produtos/${product.slug}`}
+          aria-label={`Ver produto ${product.name}`}
+          className="group block"
+        >
+          <ProductFrame interactive className="bg-surface">
+            <div className="relative aspect-[4/5] max-h-[520px] w-full overflow-hidden">
+              <Image
+                src={image.url}
+                alt={image.alt}
+                fill
+                priority
+                sizes="(min-width: 768px) 42vw, 92vw"
+                className="object-contain p-6 transition duration-500 group-hover:scale-[1.03] sm:p-8"
+                unoptimized={image.isPlaceholder || image.url.endsWith(".svg")}
               />
-            ))}
+            </div>
+          </ProductFrame>
+        </Link>
+
+        <div className="rounded-[var(--radius-brand)] border border-border bg-surface p-5 shadow-[var(--shadow-soft)] md:p-7">
+          <BrandStamp>Produto em destaque</BrandStamp>
+          <h2 className="mt-4 break-words text-2xl font-black leading-tight text-foreground md:text-4xl">
+            {product.name}
+          </h2>
+          <p className="mt-3 text-sm font-semibold leading-6 text-muted md:text-base">
+            Camiseta com identidade brasileira, feita para entrar na rotina sem
+            virar fantasia.
+          </p>
+          <div className="mt-5 flex flex-col items-start gap-2 border-y border-border py-4 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+            <Price
+              price={product.price}
+              compareAtPrice={product.compareAtPrice}
+              currency={product.currency}
+              size="lg"
+            />
+            <span className="text-label text-caramelo-dark">
+              {product.availableForSale ? "Disponível" : "Esgotado"}
+            </span>
           </div>
+          <Button
+            href={`/produtos/${product.slug}`}
+            variant="dark"
+            size="lg"
+            className="mt-5 w-full"
+            rightIcon={<ArrowRight size={18} />}
+          >
+            Ver produto
+          </Button>
         </div>
       </Container>
     </section>
-  );
-}
-
-function SnapshotFeature({ product }: { product: Product }) {
-  const image = getProductMainImage(product);
-
-  return (
-    <Link
-      href={`/produtos/${product.slug}`}
-      className="group absolute left-0 top-0 block w-[78%] sm:w-[64%]"
-    >
-      <ProductFrame interactive tilt="left" className="bg-background">
-        <div className="relative aspect-[4/5]">
-          <Image
-            src={image.url}
-            alt={image.alt}
-            fill
-            sizes="(min-width: 1024px) 36vw, 90vw"
-            className="object-contain p-8 transition duration-500 group-hover:scale-[1.035]"
-            unoptimized={image.isPlaceholder || image.url.endsWith(".svg")}
-          />
-        </div>
-        <div className="flex items-end justify-between gap-4 bg-surface p-5">
-          <div>
-            <BrandStamp>Peça guia</BrandStamp>
-            <h3 className="mt-2 text-xl font-semibold text-foreground">
-              {product.name}
-            </h3>
-          </div>
-          <Price price={product.price} currency={product.currency} />
-        </div>
-      </ProductFrame>
-    </Link>
-  );
-}
-
-function SnapshotMini({
-  product,
-  tilt,
-}: {
-  product: Product;
-  tilt: "left" | "right";
-}) {
-  const image = getProductMainImage(product);
-
-  return (
-    <Link href={`/produtos/${product.slug}`} className="group block">
-      <ProductFrame
-        interactive
-        tilt={tilt}
-        className="grid grid-cols-[112px_1fr] bg-background"
-      >
-        <div className="relative aspect-square">
-          <Image
-            src={image.url}
-            alt={image.alt}
-            fill
-            sizes="112px"
-            className="object-contain p-4 transition duration-500 group-hover:scale-[1.04]"
-            unoptimized={image.isPlaceholder || image.url.endsWith(".svg")}
-          />
-        </div>
-        <div className="flex flex-col justify-between bg-surface p-4">
-          <BrandStamp>{product.collection}</BrandStamp>
-          <div>
-            <h3 className="font-semibold leading-snug text-foreground">
-              {product.name}
-            </h3>
-            <Price price={product.price} currency={product.currency} size="sm" />
-          </div>
-        </div>
-      </ProductFrame>
-    </Link>
   );
 }

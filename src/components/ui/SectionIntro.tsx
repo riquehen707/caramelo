@@ -31,10 +31,12 @@ export function SectionIntro({
     >
       <div>
         {eyebrow ? <BrandStamp>{eyebrow}</BrandStamp> : null}
-        <h2 className="mt-4 text-section-title text-foreground">{title}</h2>
+        <h2 className="mt-4 max-w-[22rem] break-words text-section-title text-foreground md:max-w-none">
+          {title}
+        </h2>
       </div>
       {description ? (
-        <p className="max-w-2xl text-lg font-semibold leading-7 text-foreground">
+        <p className="max-w-[21rem] text-lg font-semibold leading-7 text-foreground md:max-w-2xl">
           {description}
         </p>
       ) : null}

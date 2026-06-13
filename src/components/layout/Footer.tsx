@@ -6,54 +6,33 @@ import styles from "./Footer.module.scss";
 
 export function Footer() {
   return (
-    <footer className={`${styles.root} overflow-hidden border-t border-white/10 bg-surface-dark text-background`}>
-      <Container className="py-12 lg:py-16">
-        <div className="grid gap-10 lg:grid-cols-[1.25fr_1fr] lg:items-end">
+    <footer className={`${styles.root} overflow-hidden border-t border-white/10 bg-surface-dark text-[#f7eedc]`}>
+      <Container className="py-10 lg:py-14">
+        <div className="grid gap-6 md:grid-cols-[1fr_0.9fr] md:items-end">
           <div>
-            <BrandStamp tone="dark">Brasil de rua / desde o MVP</BrandStamp>
+            <BrandStamp tone="dark">Brasil de rua</BrandStamp>
             <Link
               href="/"
-              className="mt-5 block text-[4.5rem] font-black leading-[0.85] tracking-normal text-[#fff6e8] sm:text-[6.5rem] lg:text-[8rem]"
+              className="mt-4 block text-5xl font-black leading-none tracking-normal text-[#fff8ea] sm:text-7xl"
             >
               Caramelo
             </Link>
           </div>
 
-          <p className="max-w-xl text-xl font-black leading-8 text-[#e7d7c5] lg:justify-self-end">
+          <p className="max-w-md text-base font-black leading-7 text-[#e7d7c5] md:justify-self-end md:text-right">
             Loja de camisetas. Pedido direto pelo WhatsApp.
           </p>
         </div>
 
-        <div className="mt-12 grid gap-8 border-y border-white/12 py-8 md:grid-cols-[1fr_1fr_1.2fr]">
-          <div>
-            <h2 className="text-label text-[#d7ad7a]">Loja</h2>
-            <div className="mt-4 grid gap-3 text-sm text-[#d6c8b8]">
-              <FooterLink href="/produtos">Produtos</FooterLink>
-              <FooterLink href="/#marca">Sobre</FooterLink>
-              <FooterLink href="/carrinho">Carrinho</FooterLink>
-            </div>
+        <div className="mt-8 flex flex-col gap-4 border-t border-white/12 pt-6 text-sm font-semibold text-[#d6c8b8] sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex flex-wrap gap-4">
+            <FooterLink href="/produtos">Produtos</FooterLink>
+            <FooterLink href="/#marca">Manifesto</FooterLink>
+            <FooterLink href="/carrinho">Carrinho</FooterLink>
           </div>
-
-          <div>
-            <h2 className="text-label text-[#d7ad7a]">Pedido</h2>
-            <div className="mt-4 grid gap-3 text-sm text-[#d6c8b8]">
-              <span>Finalização pelo WhatsApp</span>
-              <span>Frete combinado no atendimento</span>
-              <span>Base pronta para checkout futuro</span>
-            </div>
-          </div>
-
-          <div className="grid gap-3 md:justify-items-end md:text-right">
-            <h2 className="text-label text-[#d7ad7a]">Código visual</h2>
-            <p className="max-w-sm text-sm leading-6 text-[#d6c8b8]">
-              Texto curto da seção.
-            </p>
-          </div>
-        </div>
-
-        <div className="mt-8 flex flex-col gap-4 text-xs font-semibold uppercase tracking-[0.12em] text-[#a99b8c] sm:flex-row sm:items-center sm:justify-between">
-          <span>Caramelo Studio Commerce</span>
-          <span>Rua, futebol, cultura popular</span>
+          <span className="text-xs uppercase tracking-[0.12em] text-[#b9aa9a]">
+            Rua, futebol, cultura popular
+          </span>
         </div>
       </Container>
     </footer>
